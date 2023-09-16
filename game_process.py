@@ -7,27 +7,35 @@ from mhxy import *
 class GameProcess:
     _moveOffset = (60, 20)
 
+    '''
+    初始化为小窗口
+    size为init.py中设置的窗口大小
+    '''
     def __moveZhuomianbanFunc(self, size):
         windows = pyautogui.getAllWindows()
         zhuomianban = (71, 963)
         i = 0
-        for item in list(filter(lambda x: x.title.startswith("梦幻西游："), windows)):
+        for item in list(filter(lambda window: window.title.startswith("梦幻西游："), windows)):
             item.activate()
-            print(item)
+            print(f"当前拖拽窗口：{item}")
             if item.left < 0:
                 print("notSafe")
+            # 调整游戏窗口大小
             pyautogui.moveTo(item.right - resizeOffset[0], item.bottom - resizeOffset[1])
             pyautogui.dragTo(item.left + (size[0] - resizeOffset[0]), item.top + (size[1] - resizeOffset[1]),
                              duration=1)
+            # 调整窗口位置
             pyautogui.moveTo(item.left + self._moveOffset[0], item.top + self._moveOffset[1])
             cooldown(1)
             pyautogui.dragTo(zhuomianban[i] + self._moveOffset[0], 0 + self._moveOffset[1], duration=1)
             i += 1
             print("处理后：", item)
 
+    # 初始化为小窗口
     def moveZhuomianban(self):
         self.__moveZhuomianbanFunc(smallSize)
 
+    # 初始化为原始窗口
     def moveZhuomianban2Origin(self):
         windows = pyautogui.getAllWindows()
         item = list(filter(lambda x: x.title.startswith("梦幻西游"), windows))[0]
@@ -39,9 +47,15 @@ class GameProcess:
         cooldown(3)
         print("处理后：", item)
 
+    '''
+    移动模拟器
+    '''
     def moveMoniqi(self):
         self.__moveMoniqiFunc(smallSize)
 
+    '''
+    移动模拟器
+    '''
     def __moveMoniqiFunc(self, size):
         windows = pyautogui.getAllWindows()
         i = 0
@@ -56,7 +70,9 @@ class GameProcess:
             i += 1
             print("处理后：", item)
 
-
+    '''
+    关闭模拟器
+    '''
     def closeMoniqi(self):
         #根据进程名杀死进程 NemuPlayer.exe QtWebEngineProcess.exe NemuHeadless.exe || mymain.exe CCMini.exe
         pro = 'taskkill /f /im %s'% 'NemuHeadless.exe'
