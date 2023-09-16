@@ -1,5 +1,5 @@
 from mhxy_ghost import *
-from mhxy_mine_withshop import *
+from mhxy_mine import *
 from mhxy_shopping2 import *
 
 # 晚上挂机

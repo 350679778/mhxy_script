@@ -1,5 +1,5 @@
 from mhxy_fuben import *
-from mhxy_ghost_withshop import *
+from mhxy_ghost import *
 
 # 晚上挂机
 if __name__ == '__main__':
