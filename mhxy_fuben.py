@@ -4,12 +4,18 @@ from configparser import ConfigParser
 
 from mhxy import *
 
+'''
+副本实现逻辑：
+1.构造方法中找到游戏的窗口，读取resource中的配置信息，再定位副本图片的位置
+2.调用do()方法，循环执行副本
+'''
+
 
 class Fuben(MhxyScript):
     # 暂时没用，请忽视
     xiashi_fix = 5.6 + 0
     _fubenIdx = 0
-    fubenPos = [
+    fuben_position = [
         ("xiashi", 13, 15),
         ("xiashi", 7, 15),
 
@@ -31,50 +37,28 @@ class Fuben(MhxyScript):
         conn.read(file_path)
         type = int(conn.get('main', 'type'))
         if type >= 4:
-            self.fubenPos = [self.fubenPos[1], self.fubenPos[2], self.fubenPos[3], self.fubenPos[4]]
+            self.fuben_position = [self.fuben_position[1], self.fuben_position[2], self.fuben_position[3],
+                                   self.fuben_position[4]]
         elif type == 3:
-            self.fubenPos = [self.fubenPos[2], self.fubenPos[3], self.fubenPos[4]]
+            self.fuben_position = [self.fuben_position[2], self.fuben_position[3], self.fuben_position[4]]
         elif type == 2:
-            self.fubenPos = [self.fubenPos[3], self.fubenPos[4]]
+            self.fuben_position = [self.fuben_position[3], self.fuben_position[4]]
         elif type == 1:
-            self.fubenPos = [self.fubenPos[1], self.fubenPos[3], self.fubenPos[4]]
+            self.fuben_position = [self.fuben_position[1], self.fuben_position[3], self.fuben_position[4]]
 
     def _changan(self):
         return Util.locate_center_on_screen(r'resources/fuben/activity.png')
 
+    def do(self):
+        while self._do() and self._flag:
+            cooldown(2)
+
     # 流程任务
     def _do(self):
-        def clickSkip(locate, idx, times):
-            if not self._flag:
-                sys.exit(0)
-            reachPos = Util.locate_center_on_screen(r'resources/fuben/select.png')
-            if reachPos is not None:
-                # 对话
-                pyautogui.leftClick(reachPos.x, reachPos.y + relative_y2_act(1.5))
-            elif Util.locate_center_on_screen(r'resources/fuben/skipJuqing.png') is not None:
-                # 跳过剧情动画
-                Util.left_click(-3, 7)
-            elif Util.locate_center_on_screen(r'resources/small/blood.png') is None:
-                # 阅读剧情
-                Util.left_click(-3, 1.8)
-            else:
-                # 追踪任务 如果 xiashi_fix 不是在第一个任务，可能会使得 到长安点到第一个任务出现弹窗使得脚本出错，此时确认下没到达长安，可降低发生的概率
-                if self.xiashi_fix < 6 or self._changan() is None:
-                    Util.left_click(-3, 5.5)
-            cooldown(1)
-
-        def doUntil2Changan():
-            changanPos = self._changan()
-            while changanPos is None:
-                # 找不到头像则正在对话点击头像位置跳过 直到找到头像位置
-                do_util_find_pic([r'resources/small/enter_battle_flag.png', r'resources/fuben/activity.png'], clickSkip, warn_times=10)
-                changanPos = self._changan()
-                cooldown(2)
-
         #  进入第一个副本为起点
-        doUntil2Changan()
+        self.do_until_to_changan()
 
-        if self._fubenIdx >= len(self.fubenPos):
+        if self._fubenIdx >= len(self.fuben_position):
             return False
         # elif self.fubenPos[self._fubenIdx][0] == "xiashi":
         #     # 已领取的侠士任务所在坐标
@@ -105,25 +89,49 @@ class Fuben(MhxyScript):
                 #  11
                 pyautogui.leftClick(se.x, se.y)
                 cooldown(2)
-                if self.fubenPos[self._fubenIdx][0] == "xiashi":
+                if self.fuben_position[self._fubenIdx][0] == "xiashi":
                     Util.left_click(9, 5)
                     cooldown(1)
                 # 下一个副本
-                Util.left_click(self.fubenPos[self._fubenIdx][1], self.fubenPos[self._fubenIdx][2])
+                Util.left_click(self.fuben_position[self._fubenIdx][1], self.fuben_position[self._fubenIdx][2])
                 self._fubenIdx += 1
                 print("下一个副本" + str(self._fubenIdx))
         return True
 
-    def loginIn(self):
+    def login_in(self):
         cooldown(1)
-        loginInBtn = Util.locate_center_on_screen(r'resources/fuben/loginin.png')
-        if loginInBtn is not None:
-            pyautogui.leftClick(loginInBtn.x, loginInBtn.y)
+        login_in_button = Util.locate_center_on_screen(r'resources/fuben/loginin.png')
+        if login_in_button is not None:
+            pyautogui.leftClick(login_in_button.x, login_in_button.y)
         cooldown(5)
         Util.left_click(12, 13.5)
 
-    def do(self):
-        while self._do() and self._flag:
+    def click_skip(self, locate, idx, times):
+        if not self._flag:
+            sys.exit(0)
+        reachPos = Util.locate_center_on_screen(r'resources/fuben/select.png')
+        if reachPos is not None:
+            # 对话
+            pyautogui.leftClick(reachPos.x, reachPos.y + relative_y2_act(1.5))
+        elif Util.locate_center_on_screen(r'resources/fuben/skipJuqing.png') is not None:
+            # 跳过剧情动画
+            Util.left_click(-3, 7)
+        elif Util.locate_center_on_screen(r'resources/small/blood.png') is None:
+            # 阅读剧情
+            Util.left_click(-3, 1.8)
+        else:
+            # 追踪任务 如果 xiashi_fix 不是在第一个任务，可能会使得 到长安点到第一个任务出现弹窗使得脚本出错，此时确认下没到达长安，可降低发生的概率
+            if self.xiashi_fix < 6 or self._changan() is None:
+                Util.left_click(-3, 5.5)
+        cooldown(1)
+
+    def do_until_to_changan(self):
+        changan_position = self._changan()
+        while changan_position is None:
+            # 找不到头像则正在对话点击头像位置跳过 直到找到头像位置
+            do_util_find_pic([r'resources/small/enter_battle_flag.png', r'resources/fuben/activity.png'],
+                             self.click_skip, warn_times=10)
+            changan_position = self._changan()
             cooldown(2)
 
 

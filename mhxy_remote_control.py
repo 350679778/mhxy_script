@@ -67,7 +67,7 @@ def do520():
     global _520Thread
     print("start 520....")
     fuben = Fuben(idx=0)
-    fuben.fubenPos = [
+    fuben.fuben_position = [
         # ("xiashi", 13, 15),
          ("xiashi", 7, 15),
 
@@ -76,13 +76,13 @@ def do520():
         ("norm", 7, 15)
     ]
 
-    fuben.loginIn()
+    fuben.login_in()
 
     fuben.do()
 
     ghost = Ghost(idx=0)
     ghost.maxRound = 5
-    ghost.chasepos = 1
+    ghost.chase_position = 1
     ghost.go()
     ghost.do()
     _520Thread = None

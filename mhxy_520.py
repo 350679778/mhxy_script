@@ -6,7 +6,7 @@ if __name__ == '__main__':
     try:
         print("start task....")
         fuben = Fuben(idx=0)
-        fuben.fubenPos = [
+        fuben.fuben_position = [
             # ("xiashi", 13, 15),
             ("xiashi", 7, 15),
 

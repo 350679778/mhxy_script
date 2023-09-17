@@ -14,7 +14,7 @@ class Ghost(MhxyScript):
     _startTimestamp = None
     _chaseWin = None
     # 任务位置
-    chasepos = 1
+    chase_position = 1
     # 自动领双数
     _doublePointNumPer100 = -1
     warnMinute = 25
@@ -33,7 +33,7 @@ class Ghost(MhxyScript):
         warnMinute = int(conn.get('main', 'warnMinute'))
         if chasepos is not None:
             print("读取配置：任务位置为：" + str(chasepos))
-            self.chasepos = chasepos
+            self.chase_position = chasepos
         if maxRound is not None:
             print("读取配置：捉鬼轮数为：" + str(maxRound))
             self.maxRound = maxRound
@@ -49,7 +49,7 @@ class Ghost(MhxyScript):
         super().__init__(idx=int(idx), resize_to_small=resize, chang_window_position=chang_window_position)
 
     def _chaseWinFix(self):
-        fix = 2 * self.chasepos
+        fix = 2 * self.chase_position
         return fix
 
     def getDialog(self):
