@@ -13,9 +13,9 @@ class Bangpai(MhxyScript):
 
     _allList = []
 
-    def __init__(self, idx=0, changWinPos=True) -> None:
+    def __init__(self, idx=0, chang_window_position=True) -> None:
         # init(resizeToSmall=True)
-        super().__init__(idx=idx, changWinPos=changWinPos)
+        super().__init__(idx=idx, chang_window_position=chang_window_position)
         file_path = os.path.join(os.path.abspath('.'), 'resources/bangpai/small/bangpai.ini')
         if not os.path.exists(file_path):
             raise FileNotFoundError("文件不存在")
@@ -32,19 +32,19 @@ class Bangpai(MhxyScript):
             cooldown(0.2)
 
         def shangchen(locate, chaseWin):
-            shangchen = Util.locateCenterOnScreen(r'resources/bangpai/small/shangchen.png') is not None
+            shangchen = Util.locate_center_on_screen(r'resources/bangpai/small/shangchen.png') is not None
             # 选择第二个商品（防止商品被买）
             # 顺势上交
             if shangchen:
-                Util.leftClick(-7, 8)
+                Util.left_click(-7, 8)
                 pyautogui.leftClick(locate.x, locate.y)
                 cooldown(2)
-                Util.leftClick(-5, -5)
+                Util.left_click(-5, -5)
             else:
                 clickFunc(locate, chaseWin)
 
         def battleFunc(locate, chaseWin):
-            while Util.locateCenterOnScreen(r'resources/small/enter_battle_flag.png') is not None:
+            while Util.locate_center_on_screen(r'resources/small/enter_battle_flag.png') is not None:
                 cooldown(1)
             pyautogui.leftClick(locate.x, locate.y)
             cooldown(0.5)
@@ -100,7 +100,7 @@ class Bangpai(MhxyScript):
         nodePointer = self._rootList
         findPicNode = None
         while findPicNode is None or findPicNode.next is not None:
-            Util.leftClick(self.chaseWin[0], self.chaseWin[1])
+            Util.left_click(self.chaseWin[0], self.chaseWin[1])
             idx, locate = self._findPic(nodePointer)
             time = 0
             while locate is None:
@@ -112,7 +112,7 @@ class Bangpai(MhxyScript):
                 idx, locate = self._findPic(nodePointer)
                 if time >= 5 and locate is None and time % 4 == 0:
                     # 没法判断特征图片的任务都能通过不断点击追踪完成（因为挂机刷怪会停止没发判断，先这么搞）
-                    Util.leftClick(self.chaseWin[0], self.chaseWin[1])
+                    Util.left_click(self.chaseWin[0], self.chaseWin[1])
             findPicNode = nodePointer[idx]
             print("选中：" + findPicNode.elem)
             findPicNode.completeFunc(locate, self.chaseWin)
@@ -130,11 +130,11 @@ class Bangpai(MhxyScript):
             locate = None
             if isinstance(each.elem, list):
                 for iid, item in enumerate(each.elem):
-                    locate = Util.locateCenterOnScreen(item)
+                    locate = Util.locate_center_on_screen(item)
                     if locate is not None:
                         break
             else:
-                locate = Util.locateCenterOnScreen(each.elem)
+                locate = Util.locate_center_on_screen(each.elem)
             if locate is not None:
                 return idx, locate
         return None, None

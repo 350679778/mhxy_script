@@ -9,7 +9,7 @@ except ImportError:
 def ocr(region, type=None):
     # 识别汉字
     img = pyautogui.screenshot(
-        region=(winRelativeX(region[0]), winRelativeY(region[1]), winRelativeX(region[2]), winRelativeY(region[3])))
+        region=(win_relative_x(region[0]), win_relative_y(region[1]), win_relative_x(region[2]), win_relative_y(region[3])))
     # 只检测数字
     config = None
     # 中文

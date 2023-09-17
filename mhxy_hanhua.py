@@ -4,11 +4,11 @@ from mhxy import *
 class Hanhua:
     def hanhua(self):
         while True:
-            Util.leftClick(9, 2)
-            Util.leftClick(3.5, 11.5)
+            Util.left_click(9, 2)
+            Util.left_click(3.5, 11.5)
             # 第二个 14 第一个 x 9
-            Util.leftClick(9, 12)
-            Util.leftClick(11, 2)
+            Util.left_click(9, 12)
+            Util.left_click(11, 2)
             cooldown(4)
 
     def hanhuaWithText(self):
@@ -27,5 +27,5 @@ class Hanhua:
 if __name__ == '__main__':
     Util.PAUSE = 0.2
     print("start task....")
-    init(resizeToSmall=True)
+    init(resize_to_small=True)
     Hanhua().hanhua()

@@ -36,23 +36,23 @@ class Shopping2:
 
     def openSop(self):
         cooldown(2)
-        Util.leftClick(1, 6)
+        Util.left_click(1, 6)
         cooldown(2)
 
     def close(self):
         cooldown(2)
-        Util.leftClick(-2.5, 3.5)
+        Util.left_click(-2.5, 3.5)
         cooldown(2)
 
     def _refresh(self):
-        leftTab = (frame.left + relativeX2Act(5), frame.top + relativeY2Act(8.5))
+        leftTab = (frame.left + relative_x2_act(5), frame.top + relative_y2_act(8.5))
         pyautogui.leftClick(leftTab[0], leftTab[1])
 
     def _buy(self):
-        buyTab = (frame.right - relativeX2Act(5), frame.bottom - relativeY2Act(3))
+        buyTab = (frame.right - relative_x2_act(5), frame.bottom - relative_y2_act(3))
         pyautogui.leftClick(buyTab[0], buyTab[1])
-        # confirmTab = (frame.left + relativeX2Act(13.5), frame.top + relativeY2Act(8.5))
-        confirmTab = (frame.left + relativeX2Act(8), frame.top + relativeY2Act(14))
+        # confirmTab = (frame.py.left + relativeX2Act(13.5), frame.py.top + relativeY2Act(8.5))
+        confirmTab = (frame.left + relative_x2_act(8), frame.top + relative_y2_act(14))
         pyautogui.leftClick(confirmTab[0], confirmTab[1])
 
     def _timeApproach(self):
@@ -108,14 +108,14 @@ class Shopping2:
 
     def relogin(self):
         cooldown(1)
-        Util.leftClick(14, 12.5)
+        Util.left_click(14, 12.5)
         cooldown(5)
-        Util.leftClick(14, 11.7)
+        Util.left_click(14, 11.7)
         cooldown(5)
-        Util.leftClick(14, 15)
+        Util.left_click(14, 15)
         cooldown(5)
         self.openSop()
-        Util.leftClick(26.5, 10)
+        Util.left_click(26.5, 10)
 
     def shopping2(self):
         threading.Thread(target=self.__tcpServer, daemon=True).start()
@@ -137,7 +137,7 @@ class Shopping2:
                 itemPic = [r'resources/shop/item_2.png']
                 point = None
                 for each in itemPic:
-                    point = Util.locateCenterOnScreen(each, confidence=0.99)
+                    point = Util.locate_center_on_screen(each, confidence=0.99)
                     if point is not None:
                         break
                 # 两次都没有刷新列表

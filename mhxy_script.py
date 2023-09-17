@@ -59,7 +59,7 @@ def packStop():
 
 def packGhost():
     def change2Ghost():
-        changeThread(Ghost(changWinPos=_changWinPos))
+        changeThread(Ghost(chang_window_position=_changWinPos))
 
     ghostBtn = myButton(root, text='捉鬼', width=8, command=change2Ghost)
     ghostBtn.place(x=40, y=60, anchor=NW)
@@ -67,28 +67,28 @@ def packGhost():
 
 def packFuben():
     def change2Fuben():
-        changeThread(Fuben(changWinPos=_changWinPos))
+        changeThread(Fuben(chang_window_position=_changWinPos))
 
     fubenBtn = myButton(root, text='副本', width=8, command=change2Fuben)
     fubenBtn.place(x=130, y=60, anchor=NW)
 
 def packMenpai():
     def changMission():
-        changeThread(Menpai(changWinPos=_changWinPos))
+        changeThread(Menpai(chang_window_position=_changWinPos))
 
     fubenBtn = myButton(root, text='门派', width=8, command=changMission)
     fubenBtn.place(x=40, y=100, anchor=NW)
 
 def packHaidi():
     def changMission():
-        changeThread(Haidi(changWinPos=_changWinPos))
+        changeThread(Haidi(chang_window_position=_changWinPos))
 
     fubenBtn = myButton(root, text='海底', width=8, command=changMission)
     fubenBtn.place(x=130, y=100, anchor=NW)
 
 def packMihunta():
     def changMission():
-        changeThread(Mihunta(changWinPos=_changWinPos))
+        changeThread(Mihunta(chang_window_position=_changWinPos))
 
     fubenBtn = myButton(root, text='迷魂塔', width=8, command=changMission)
     fubenBtn.place(x=40, y=140, anchor=NW)
@@ -98,7 +98,7 @@ def packBangpai():
     global bangpaiBtn
 
     def change2bangpai():
-        changeThread(Bangpai(changWinPos=_changWinPos))
+        changeThread(Bangpai(chang_window_position=_changWinPos))
 
     bangpaiBtn = myButton(root, text='帮派任务', width=8, command=change2bangpai)
     bangpaiBtn.place(x=130, y=140, anchor=NW)
@@ -106,7 +106,7 @@ def packBangpai():
 
 def packMine():
     def change2Mine():
-        changeThread(Mine(changWinPos=_changWinPos))
+        changeThread(Mine(chang_window_position=_changWinPos))
 
     mineBtn = myButton(root, text='挖矿', width=8, command=change2Mine)
     mineBtn.place(x=90, y=230, anchor=NW)
@@ -125,7 +125,7 @@ if __name__ == '__main__':
     # root.iconbitmap('mhxy.ico')
     gameProcess = GameProcess()
 
-    smallWinBtn = myButton(root, text='初始化为小窗口', width=12, command=gameProcess.moveZhuomianban)
+    smallWinBtn = myButton(root, text='初始化为小窗口', width=12, command=gameProcess.move_zhuo_mian_ban)
     smallWinBtn.place(x=80, y=10, anchor=NW)
 
     # 抓鬼
@@ -142,7 +142,7 @@ if __name__ == '__main__':
     packBangpai()
     # ================原始大小窗口
 
-    originWinBtn = myButton(root, text='初始化为原始窗口', width=12, command=gameProcess.moveZhuomianban2Origin)
+    originWinBtn = myButton(root, text='初始化为原始窗口', width=12, command=gameProcess.move_zhuo_mian_ban_to_origin)
     originWinBtn.place(x=80, y=180, anchor=NW)
 
     # 挖矿

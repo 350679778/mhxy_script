@@ -40,7 +40,7 @@ class MineUtil:
             pos = (-6, 6)
         else:
             pos = (-7.8, 3.8)
-        Util.leftClick(pos[0], pos[1])
+        Util.left_click(pos[0], pos[1])
 
 
 class _StandPoint:
@@ -68,8 +68,8 @@ class _FstStandPoint(_StandPoint):
     def move2Point(self):
         # self.newDayCloseDiag()
         # 打开大地图
-        posBigMap = (frame.left + relativeX2Act(1),
-                     frame.top + relativeY2Act(2))
+        posBigMap = (frame.left + relative_x2_act(1),
+                     frame.top + relative_y2_act(2))
         print("click bigMap", posBigMap)
         pyautogui.leftClick(posBigMap[0],
                             posBigMap[1])
@@ -82,18 +82,18 @@ class _FstStandPoint(_StandPoint):
             posMap = (11, 6.3)
         elif self.map == "changshou":
             posMap = (3.5, 11.2)
-        Util.leftClick(posMap[0], posMap[1])
+        Util.left_click(posMap[0], posMap[1])
         # 打开小地图
-        posSmallMap = (frame.left + relativeX2Act(3.5),
-                       frame.top + relativeY2Act(2))
+        posSmallMap = (frame.left + relative_x2_act(3.5),
+                       frame.top + relative_y2_act(2))
         pyautogui.leftClick(posSmallMap[0],
                             posSmallMap[1])
         # 选择右上部分的点
-        posMove = winRelativeXY(self.relativeX, self.relativeY)
+        posMove = win_relative_xy(self.relativeX, self.relativeY)
         pyautogui.leftClick(posMove[0],
                             posMove[1])
         MineUtil.closeSmallMap(self.map)
-        closeMission()
+        close_mission()
         cooldown(self.cooldown)
 
 
@@ -115,12 +115,12 @@ class _NormStandPoint(_StandPoint):
 
     def move2Point(self):
         # 打开小地图
-        posSmallMap = (frame.left + relativeX2Act(3.5),
-                       frame.top + relativeY2Act(2))
+        posSmallMap = (frame.left + relative_x2_act(3.5),
+                       frame.top + relative_y2_act(2))
         pyautogui.leftClick(posSmallMap[0],
                             posSmallMap[1])
         # 选择右上部分随意点
-        posMove = winRelativeXY(self.relativeX, self.relativeY)
+        posMove = win_relative_xy(self.relativeX, self.relativeY)
         pyautogui.leftClick(posMove[0],
                             posMove[1])
         MineUtil.closeSmallMap(self.map)
@@ -174,24 +174,24 @@ class Mine(MhxyScript):
     def _initForMine(self):
         global frame
         pyautogui.PAUSE = 0.3
-        self._smallMap.left = frame.left + relativeX2Act(7.5)
-        self._smallMap.top = frame.top + relativeY2Act(3.7)
-        self._smallMap.right = frame.right - relativeX2Act(7.5)
-        self._smallMap.bottom = frame.bottom - relativeY2Act(2.8)
+        self._smallMap.left = frame.left + relative_x2_act(7.5)
+        self._smallMap.top = frame.top + relative_y2_act(3.7)
+        self._smallMap.right = frame.right - relative_x2_act(7.5)
+        self._smallMap.bottom = frame.bottom - relative_y2_act(2.8)
         print("init smallMap:", self._smallMap)
 
     def _changeMapPos(self, mapPos):
         self._standPoints[mapPos % len(self._standPoints)].move2Point()
         return self._standPoints[mapPos % len(self._standPoints)]
 
-    def __init__(self, idx=0, changWinPos=True, resizeToSmall=False) -> None:
-        super().__init__(idx, changWinPos, resizeToSmall)
+    def __init__(self, idx=0, chang_window_position=True, resize_to_small=False) -> None:
+        super().__init__(idx, chang_window_position, resize_to_small)
         self._initForMine()
         self._lastMineTime = datetime.datetime.now().timestamp()
 
     def _mining(self, mineList=None):
         def waitMoveOk():
-            mineSelect = Util.locateCenterOnScreen(r'resources/mine/mine_select.png')
+            mineSelect = Util.locate_center_on_screen(r'resources/mine/mine_select.png')
             if mineSelect is not None:
                 pyautogui.leftClick(mineSelect.x, mineSelect.y)
             collect = None
@@ -200,7 +200,7 @@ class Mine(MhxyScript):
                 if count > 10:
                     return False
                 cooldown(1)
-                collect = Util.locateCenterOnScreen(r'resources/mine/collect.png')
+                collect = Util.locate_center_on_screen(r'resources/mine/collect.png')
                 count += 1
             return True
 
@@ -209,29 +209,29 @@ class Mine(MhxyScript):
         # 等待时间 点位信息
         count = 0
         while count < len(mineList):
-            nav_arrow = Util.locateCenterOnScreen(r'resources/mine/nav_arrow.png')
+            nav_arrow = Util.locate_center_on_screen(r'resources/mine/nav_arrow.png')
             if nav_arrow is not None:
                 pyautogui.leftClick(nav_arrow.x, nav_arrow.y)
                 cooldown(0.5)
             for mine in mineList:
-                point = Util.locateCenterOnScreen(mine.pic,
-                                                  confidence=0.96)
+                point = Util.locate_center_on_screen(mine.pic,
+                                                     confidence=0.96)
                 if point is not None:
                     print("发现矿：", mine.pic)
                     p = (mine.wait, point.x, point.y)
                     # 点击矿
                     pyautogui.leftClick(point.x, point.y - mine.offsetY)  # -20 采集
-                    if point.y <= frame.top + relativeY2Act(3.5):
+                    if point.y <= frame.top + relative_y2_act(3.5):
                         continue
                     res = waitMoveOk()
                     # 出现采矿按钮并且点位不会碰到地图
                     if res:
                         # 点击挖
                         self._lastMineTime = datetime.datetime.now().timestamp()
-                        Util.leftClick(-5, -3.5)
+                        Util.left_click(-5, -3.5)
                         cooldown(4)
                         # 验证码的出现规则目前是每一天时间出现一次，可以先手动挖一两轮再挂
-                        yanzhen = Util.locateCenterOnScreen(r'resources/mine/yanzhen.png')
+                        yanzhen = Util.locate_center_on_screen(r'resources/mine/yanzhen.png')
                         if yanzhen is not None:
                             # 挖到验证码停止，然后等10秒手动验证（大概两轮就出，所以没选择报警）
                             self._flag = False

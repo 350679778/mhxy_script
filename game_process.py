@@ -11,7 +11,8 @@ class GameProcess:
     初始化为小窗口
     size为init.py中设置的窗口大小
     '''
-    def __moveZhuomianbanFunc(self, size):
+
+    def __move_zhuo_mian_ban_func(self, size):
         windows = pyautogui.getAllWindows()
         zhuomianban = (71, 963)
         i = 0
@@ -32,11 +33,11 @@ class GameProcess:
             print("处理后：", item)
 
     # 初始化为小窗口
-    def moveZhuomianban(self):
-        self.__moveZhuomianbanFunc(smallSize)
+    def move_zhuo_mian_ban(self):
+        self.__move_zhuo_mian_ban_func(smallSize)
 
     # 初始化为原始窗口
-    def moveZhuomianban2Origin(self):
+    def move_zhuo_mian_ban_to_origin(self):
         windows = pyautogui.getAllWindows()
         item = list(filter(lambda x: x.title.startswith("梦幻西游"), windows))[0]
         item.activate()
@@ -50,16 +51,19 @@ class GameProcess:
     '''
     移动模拟器
     '''
-    def moveMoniqi(self):
-        self.__moveMoniqiFunc(smallSize)
+
+    def move_mo_ni_qi(self):
+        self.__move_mo_ni_qi_func(smallSize)
 
     '''
     移动模拟器
     '''
-    def __moveMoniqiFunc(self, size):
+
+    def __move_mo_ni_qi_func(self, size):
         windows = pyautogui.getAllWindows()
         i = 0
-        for item in list(filter(lambda x: x.title.startswith("MuMu模拟器12") or x.title.startswith("梦幻西游 - "), windows)):
+        for item in list(
+                filter(lambda x: x.title.startswith("MuMu模拟器12") or x.title.startswith("梦幻西游 - "), windows)):
             item.activate()
             print(item)
             if item.left < 0:
@@ -73,19 +77,21 @@ class GameProcess:
     '''
     关闭模拟器
     '''
-    def closeMoniqi(self):
-        #根据进程名杀死进程 NemuPlayer.exe QtWebEngineProcess.exe NemuHeadless.exe || mymain.exe CCMini.exe
-        pro = 'taskkill /f /im %s'% 'NemuHeadless.exe'
+
+    def close_mo_ni_qi(self):
+        # 根据进程名杀死进程 NemuPlayer.exe QtWebEngineProcess.exe NemuHeadless.exe || mymain.exe CCMini.exe
+        pro = 'taskkill /f /im %s' % 'NemuHeadless.exe'
         os.system(pro)
-        pro = 'taskkill /f /im %s'% 'QtWebEngineProcess.exe'
+        pro = 'taskkill /f /im %s' % 'QtWebEngineProcess.exe'
         os.system(pro)
+
 
 if __name__ == '__main__':
     type = int(0 if len(sys.argv) <= 1 else sys.argv[1])
     resize = GameProcess()
     if type == 0:
-        resize.moveZhuomianban()
+        resize.move_zhuo_mian_ban()
     else:
-        resize.moveZhuomianban2Origin()
+        resize.move_zhuo_mian_ban_to_origin()
     # 模拟器分辨率设置为：1600*1095 再调整窗口大小可使用脚本
     # resize.moveMoniqi()
