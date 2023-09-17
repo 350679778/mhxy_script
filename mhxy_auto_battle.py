@@ -1,5 +1,4 @@
 from mhxy import *
-from mhxy.utils.util import Util
 
 
 class AutoBattle:
@@ -7,13 +6,13 @@ class AutoBattle:
     def do(self):
         click = False
         while True:
-            linglongshi = Util.locate_center_on_screen(r'resources/small/linglongshi.png')
+            linglongshi = util.locate_center_on_screen(r'resources/small/linglongshi.png')
             if linglongshi is not None:
                 pyautogui.leftClick(linglongshi.x, linglongshi.y - 10)
             if battling(r'resources/small/no_auto_battle.png'):
                 if not click:
                     cooldown(2)
-                    Util.left_click(-1.2, -1.2)
+                    util.left_click(-1.2, -1.2)
                     click = True
                 cooldown(2)
             else:
