@@ -1,4 +1,6 @@
 from mhxy import *
+from mhxy.utils.util import Util
+
 
 class AutoBattle:
 

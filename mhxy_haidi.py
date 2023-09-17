@@ -9,8 +9,8 @@ class Haidi(MhxyScript):
         # 流程任务 领取任务后起点
         def do():
             def reach():
-                return Util.locate_center_on_screen(r'resources/haidi/select.png')
-            Util.double_click(chaseWin[0], chaseWin[1])
+                return util.locate_center_on_screen(r'resources/haidi/select.png')
+            util.double_click(chaseWin[0], chaseWin[1])
             reachPos = reach()
             times = 0
             while reachPos is None:
@@ -23,7 +23,7 @@ class Haidi(MhxyScript):
                 if times >= 6:
                     print("恢复流程")
                     # 10秒左右还没进入战斗 重新追踪
-                    Util.left_click(chaseWin[0], chaseWin[1])
+                    util.left_click(chaseWin[0], chaseWin[1])
                     times = 0
             pyautogui.leftClick(reachPos.x, reachPos.y)
         escape_battle_do(do)

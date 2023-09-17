@@ -4,7 +4,6 @@ from configparser import ConfigParser
 
 from mhxy import *
 
-
 # 小窗口
 class Bangpai(MhxyScript):
     chaseWin = [-0.5, 3.8 + 0]
@@ -32,19 +31,19 @@ class Bangpai(MhxyScript):
             cooldown(0.2)
 
         def shangchen(locate, chaseWin):
-            shangchen = Util.locate_center_on_screen(r'resources/bangpai/small/shangchen.png') is not None
+            shangchen = util.locate_center_on_screen(r'resources/bangpai/small/shangchen.png') is not None
             # 选择第二个商品（防止商品被买）
             # 顺势上交
             if shangchen:
-                Util.left_click(-7, 8)
+                util.left_click(-7, 8)
                 pyautogui.leftClick(locate.x, locate.y)
                 cooldown(2)
-                Util.left_click(-5, -5)
+                util.left_click(-5, -5)
             else:
                 clickFunc(locate, chaseWin)
 
         def battleFunc(locate, chaseWin):
-            while Util.locate_center_on_screen(r'resources/small/enter_battle_flag.png') is not None:
+            while util.locate_center_on_screen(r'resources/small/enter_battle_flag.png') is not None:
                 cooldown(1)
             pyautogui.leftClick(locate.x, locate.y)
             cooldown(0.5)
@@ -100,7 +99,7 @@ class Bangpai(MhxyScript):
         nodePointer = self._rootList
         findPicNode = None
         while findPicNode is None or findPicNode.next is not None:
-            Util.left_click(self.chaseWin[0], self.chaseWin[1])
+            util.left_click(self.chaseWin[0], self.chaseWin[1])
             idx, locate = self._findPic(nodePointer)
             time = 0
             while locate is None:
@@ -112,7 +111,7 @@ class Bangpai(MhxyScript):
                 idx, locate = self._findPic(nodePointer)
                 if time >= 5 and locate is None and time % 4 == 0:
                     # 没法判断特征图片的任务都能通过不断点击追踪完成（因为挂机刷怪会停止没发判断，先这么搞）
-                    Util.left_click(self.chaseWin[0], self.chaseWin[1])
+                    util.left_click(self.chaseWin[0], self.chaseWin[1])
             findPicNode = nodePointer[idx]
             print("选中：" + findPicNode.elem)
             findPicNode.completeFunc(locate, self.chaseWin)
@@ -130,11 +129,11 @@ class Bangpai(MhxyScript):
             locate = None
             if isinstance(each.elem, list):
                 for iid, item in enumerate(each.elem):
-                    locate = Util.locate_center_on_screen(item)
+                    locate = util.locate_center_on_screen(item)
                     if locate is not None:
                         break
             else:
-                locate = Util.locate_center_on_screen(each.elem)
+                locate = util.locate_center_on_screen(each.elem)
             if locate is not None:
                 return idx, locate
         return None, None

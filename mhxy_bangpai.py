@@ -25,14 +25,14 @@ class _Wupin(_MissionType):
 
     def complete(self, locate, **kwargs):
         if kwargs['itemIdx'] == 0 or kwargs['itemIdx'] == 2:
-            shangchen = Util.locate_center_on_screen(r'resources/bangpai/shangchen.png') is not None
+            shangchen = util.locate_center_on_screen(r'resources/bangpai/shangchen.png') is not None
             # 选择第二个商品（防止商品被买）
             # 顺势上交
             if shangchen:
-                Util.left_click(-7, 8)
+                util.left_click(-7, 8)
                 pyautogui.leftClick(locate.x, locate.y)
                 cooldown(2)
-                Util.left_click(-5, -5)
+                util.left_click(-5, -5)
             else:
                 pyautogui.leftClick(locate.x, locate.y)
         else:
@@ -113,4 +113,4 @@ if __name__ == '__main__':
     pyautogui.PAUSE = 0.5
     print("start task....")
     init()
-    Bangpai().do((win_relative_x(-0.5), win_relative_y(6 + 0)))
+    Bangpai().do((util.win_relative_x(-0.5), util.win_relative_y(6 + 0)))

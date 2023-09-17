@@ -67,7 +67,7 @@ def packGhost():
 
 def packFuben():
     def change2Fuben():
-        changeThread(Fuben(chang_window_position=_changWinPos))
+        changeThread(Fuben(change_window_position=_changWinPos))
 
     fubenBtn = myButton(root, text='副本', width=8, command=change2Fuben)
     fubenBtn.place(x=130, y=60, anchor=NW)

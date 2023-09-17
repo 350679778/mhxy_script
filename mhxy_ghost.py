@@ -54,31 +54,31 @@ class Ghost(MhxyScript):
 
     def getDialog(self):
         cooldown(1)
-        Util.left_click(7.5, 1.5)
+        util.left_click(7.5, 1.5)
         cooldown(1)
-        Util.left_click(3, 4.5)
+        util.left_click(3, 4.5)
         cooldown(2)
-        mission = Util.locate_center_on_screen(r'resources/ghost/mission.png')
+        mission = util.locate_center_on_screen(r'resources/ghost/mission.png')
         i = 0
         while mission is None and i in range(0, 2):
-            pyautogui.moveTo(win_relative_x(10), win_relative_y(12.5))
-            pyautogui.dragTo(win_relative_x(10), win_relative_y(4.6), duration=0.8)
+            pyautogui.moveTo(util.win_relative_x(10), util.win_relative_y(12.5))
+            pyautogui.dragTo(util.win_relative_x(10), util.win_relative_y(4.6), duration=0.8)
             cooldown(1)
-            mission = Util.locate_center_on_screen(r'resources/ghost/mission.png')
+            mission = util.locate_center_on_screen(r'resources/ghost/mission.png')
             i += 1
         if mission is not None:
             cooldown(1)
-            pyautogui.leftClick(mission.x + relative_x2_act(3.5), mission.y + relative_y2_act(0.2))
+            pyautogui.leftClick(mission.x + util.relative_x2_act(3.5), mission.y + util.relative_y2_act(0.2))
 
     def getPoint(self):
         cooldown(2)
-        Util.left_click(11, 1.5)
+        util.left_click(11, 1.5)
         cooldown(2)
         for each in range(0, self._doublePointNumPer100):
-            Util.left_click(20, 16)
+            util.left_click(20, 16)
             cooldown(0.2)
         cooldown(2)
-        Util.left_click(23, 3.5)
+        util.left_click(23, 3.5)
         cooldown(2)
         pass
 
@@ -88,44 +88,44 @@ class Ghost(MhxyScript):
         # +3 整点第二个任务
         print("关闭对话框 ", self._chaseWin)
         cooldown(1)
-        five = Util.locate_on_screen(r'resources/ghost/team_not_full.png')
+        five = util.locate_on_screen(frame, r'resources/ghost/team_not_full.png')
         if five is not None:
             # 按取消
             pyautogui.leftClick(five.left + five.width - 120, five.top + five.height - 20)
         # 校验双倍 self.__count % 25 == 0
         if self._count % 25 == 0 and self._doublePointNumPer100 != -1:
-            Util.left_click(self._chaseWin[0], self._chaseWin[1] + self._chaseWinFix())
+            util.left_click(self._chaseWin[0], self._chaseWin[1] + self._chaseWinFix())
             cooldown(0.2)
             self.getPoint()
-            Util.left_click(self._chaseWin[0], self._chaseWin[1] + self._chaseWinFix())
+            util.left_click(self._chaseWin[0], self._chaseWin[1] + self._chaseWinFix())
         else:
             # 关对话 + 追踪
-            Util.click(self._chaseWin[0], self._chaseWin[1] + self._chaseWinFix(), clicks=2, buttons=pyautogui.LEFT)
+            util.click(self._chaseWin[0], self._chaseWin[1] + self._chaseWinFix(), clicks=2, buttons=pyautogui.LEFT)
 
     def _newDayCloseDiagDo(self, newDay):
         if newDay is None:
             return
         pyautogui.leftClick(newDay.x, newDay.y)
         cooldown(1)
-        Util.left_click(-1, -3)
+        util.left_click(-1, -3)
 
     def go(self):
         cooldown(1)
-        Util.left_click(6.8, 1.5)
+        util.left_click(6.8, 1.5)
         cooldown(0.5)
-        Util.left_click(3, 4.7)
+        util.left_click(3, 4.7)
         cooldown(1)
-        tag = Util.locate_center_on_screen('resources/ghost/activity_tag.png')
+        tag = util.locate_center_on_screen('resources/ghost/activity_tag.png')
         i = 0
         while tag is None and i in range(0, 2):
-            pyautogui.moveTo(win_relative_x(10), win_relative_y(10))
-            pyautogui.dragTo(win_relative_x(10), win_relative_y(4.6), duration=0.8)
+            pyautogui.moveTo(util.win_relative_x(10), util.win_relative_y(10))
+            pyautogui.dragTo(util.win_relative_x(10), util.win_relative_y(4.6), duration=0.8)
             cooldown(1.5)
-            tag = Util.locate_center_on_screen('resources/ghost/activity_tag.png')
+            tag = util.locate_center_on_screen('resources/ghost/activity_tag.png')
             i += 1
         if tag is not None:
             cooldown(1)
-            pyautogui.leftClick(tag.x + relative_x2_act(3.5), tag.y + relative_y2_act(0.2))
+            pyautogui.leftClick(tag.x + util.relative_x2_act(3.5), tag.y + util.relative_y2_act(0.2))
 
     def _startGhostDo(self):
         cooldown(5 * 60)
@@ -133,50 +133,50 @@ class Ghost(MhxyScript):
     def do(self):
         # _thread.start_new_thread(resumeIfDisconnect, ("Thread-1", 2,))
         def initStartLocation():
-            return Util.locate_center_on_screen('resources/ghost/start_ghost0.png')
+            return util.locate_center_on_screen('resources/ghost/start_ghost0.png')
 
         while self._flag:
             # 战斗标识
-            battleLoc = Util.locate_on_screen('resources/small/enter_battle_flag.png')
+            battleLoc = util.locate_on_screen(frame, 'resources/small/enter_battle_flag.png')
             if battleLoc is not None:
                 self._battleTimeTick = datetime.datetime.now()
 
             # 上次战斗结束时间相差2分钟
             if (datetime.datetime.now() - self._battleTimeTick).seconds > 60 * 2:
-                Util.left_click(self._chaseWin[0], self._chaseWin[1] + self._chaseWinFix())
+                util.left_click(self._chaseWin[0], self._chaseWin[1] + self._chaseWinFix())
                 cooldown(10)
 
             # 是否继续捉鬼弹窗 虽然使用确定即可，但是截图截得长了，所以locateOnScreen获取相对截图右下点的位置
-            completeLocation = Util.locate_on_screen('resources/ghost/complete_ghost0.png')
-            startLocation = None
+            complete_location = util.locate_on_screen(frame, 'resources/ghost/complete_ghost0.png')
+            start_location = None
 
-            if completeLocation is None:
+            if complete_location is None:
                 # 对话框：捉鬼任务选项。
-                startLocation = initStartLocation()
+                start_location = initStartLocation()
 
-            if completeLocation is not None:
+            if complete_location is not None:
                 # 选择继续捉鬼
-                pyautogui.leftClick(completeLocation.left + completeLocation.width - 50,
-                                    completeLocation.top + completeLocation.height - 20)
-                startLocation = initStartLocation()
-                print("结束抓鬼 ", completeLocation)
-            if startLocation is not None:
+                pyautogui.leftClick(complete_location.left + complete_location.width - 50,
+                                    complete_location.top + complete_location.height - 20)
+                start_location = initStartLocation()
+                print("结束抓鬼 ", complete_location)
+            if start_location is not None:
                 self._count += 1
                 print("已完成抓鬼" + str(self._count) + "轮数")
                 if self._count > self.maxRound:
                     self._flag = False
                     # pl.playsound('resources/common/music.mp3')
                 else:
-                    self._startMission(startLocation)
+                    self._startMission(start_location)
                     self._startTimestamp = dt.datetime.now()
-                    print("开始抓鬼 ", startLocation)
+                    print("开始抓鬼 ", start_location)
                     self._startGhostDo()
                 if self._count % 25 == 0:
                     print("完成一千双")
                     pl.playsound('resources/common/music.mp3')
             # 二十分钟没有下一轮 怀疑掉线
             if self._startTimestamp is not None and (dt.datetime.now() - self._startTimestamp).seconds > self.warnMinute * 60:
-                Util.left_click(self._chaseWin[0], self._chaseWin[1] + self._chaseWinFix())
+                util.left_click(self._chaseWin[0], self._chaseWin[1] + self._chaseWinFix())
                 naozhong = threading.Thread(target=pl.playsound('resources/common/music.mp3'))
                 # 闹钟提醒
                 naozhong.start()

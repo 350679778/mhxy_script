@@ -1,4 +1,5 @@
 from mhxy import *
+from mhxy.utils.util import Util
 
 
 class _MinePoint:
@@ -174,10 +175,10 @@ class Mine(MhxyScript):
     def _initForMine(self):
         global frame
         pyautogui.PAUSE = 0.3
-        self._smallMap.left = frame.left + relative_x2_act(7.5)
-        self._smallMap.top = frame.top + relative_y2_act(3.7)
-        self._smallMap.right = frame.right - relative_x2_act(7.5)
-        self._smallMap.bottom = frame.bottom - relative_y2_act(2.8)
+        self._smallMap.left = frame.left + util.relative_x2_act(7.5)
+        self._smallMap.top = frame.top + util.relative_y2_act(3.7)
+        self._smallMap.right = frame.right - util.relative_x2_act(7.5)
+        self._smallMap.bottom = frame.bottom - util.relative_y2_act(2.8)
         print("init smallMap:", self._smallMap)
 
     def _changeMapPos(self, mapPos):
@@ -221,7 +222,7 @@ class Mine(MhxyScript):
                     p = (mine.wait, point.x, point.y)
                     # 点击矿
                     pyautogui.leftClick(point.x, point.y - mine.offsetY)  # -20 采集
-                    if point.y <= frame.top + relative_y2_act(3.5):
+                    if point.y <= frame.top + util.relative_y2_act(3.5):
                         continue
                     res = waitMoveOk()
                     # 出现采矿按钮并且点位不会碰到地图

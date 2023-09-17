@@ -14,18 +14,18 @@ class Shopping3:
 
     def _refresh(self):
         cooldown(0.2)
-        Util.left_click(5, 7)
+        util.left_click(5, 7)
         cooldown(0.2)
-        Util.left_click(23, 18.5)
+        util.left_click(23, 18.5)
 
     def _buy(self):
         print("购买商品")
         cooldown(0.1)
-        buyTab = (frame.right - relative_x2_act(5), frame.bottom - relative_y2_act(3))
+        buyTab = (frame.right - util.relative_x2_act(5), frame.bottom - util.relative_y2_act(3))
         pyautogui.leftClick(buyTab[0], buyTab[1])
         cooldown(0.1)
         # confirmTab = (frame.py.left + relativeX2Act(13.5), frame.py.top + relativeY2Act(8.5))
-        confirmTab = (frame.left + relative_x2_act(8), frame.top + relative_y2_act(14))
+        confirmTab = (frame.left + util.relative_x2_act(8), frame.top + util.relative_y2_act(14))
         pyautogui.leftClick(confirmTab[0], confirmTab[1])
 
     def _timeApproach(self):
@@ -41,7 +41,7 @@ class Shopping3:
 
     def close(self):
         cooldown(2)
-        Util.left_click(-2.5, 3.5)
+        util.left_click(-2.5, 3.5)
         cooldown(2)
 
     class _End(Exception):
@@ -52,7 +52,7 @@ class Shopping3:
             while self._timeApproach():
                 # 找三次是否有商品
                 itemPic = r'resources/shop/item_3.png'
-                point = Util.locate_center_on_screen(itemPic)
+                point = util.locate_center_on_screen(itemPic)
                 # 两次都没有刷新列表
                 if point is None:
                     self._refresh()

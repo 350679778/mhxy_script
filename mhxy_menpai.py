@@ -21,7 +21,7 @@ class Menpai(MhxyScript):
     def take_mission(self, startPos):
         pyautogui.leftClick(startPos.x, startPos.y)
         cooldown(0.5)
-        Util.left_click(-4, 12.5)
+        util.left_click(-4, 12.5)
         cooldown(0.5)
 
     def do(self):
@@ -35,9 +35,9 @@ class Menpai(MhxyScript):
         # 流程任务 领取任务开始
         def do_out_of_battle():
             # 离开战斗后点击启动
-            Util.left_click(18, 16)
+            util.left_click(18, 16)
             cooldown(0.2)
-            Util.left_click(self.chaseWin[0], self.chaseWin[1])
+            util.left_click(self.chaseWin[0], self.chaseWin[1])
             cooldown(1)
             startPos = start_pos()
             reachPos = reach_pos()
@@ -54,16 +54,16 @@ class Menpai(MhxyScript):
                 if times >= 6:
                     print("恢复流程")
                     # 10秒左右还没进入战斗 重新追踪
-                    Util.left_click(self.chaseWin[0], self.chaseWin[1])
+                    util.left_click(self.chaseWin[0], self.chaseWin[1])
                     times = 0
 
             if reachPos is not None:
                 pyautogui.leftClick(reachPos.x, reachPos.y)
             elif startPos is not None:
                 self.take_mission(startPos)
-                Util.left_click(18, 16)
+                util.left_click(18, 16)
                 cooldown(0.2)
-                Util.left_click(self.chaseWin[0], self.chaseWin[1])
+                util.left_click(self.chaseWin[0], self.chaseWin[1])
                 while reachPos is None:
                     reachPos = reach_pos()
                     cooldown(0.5)

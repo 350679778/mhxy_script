@@ -1,12 +1,13 @@
 from mhxy import *
 
+
 # 非珍品
 class Shopping:
     mark = True
     hour = 99
     _lastBuyTime = None
     _cooldown = 10
-    categoryPos = win_relative_xy(5, 8.5)
+    categoryPos = util.win_relative_xy(5, 8.5)
     # meigui suipian jifenquan
     __mode = 'suipian'
 
@@ -19,40 +20,40 @@ class Shopping:
         pyautogui.leftClick(self.categoryPos[0], self.categoryPos[1])
         itemTab = ()
         if self.__mode == "suipian":
-            itemTab = win_relative_xy(11, 9)
+            itemTab = util.win_relative_xy(11, 9)
         elif self.__mode == "meigui":
-            itemTab = win_relative_xy(11, 9 + 2.4)
+            itemTab = util.win_relative_xy(11, 9 + 2.4)
         elif self.__mode == "jifenquan":
-            itemTab = win_relative_xy(11, 13)
+            itemTab = util.win_relative_xy(11, 13)
         pyautogui.leftClick(itemTab[0], itemTab[1])
 
     def _multiSelect(self):
-        inputTab = win_relative_xy(15, 13.5)
+        inputTab = util.win_relative_xy(15, 13.5)
         pyautogui.leftClick(inputTab[0], inputTab[1])
-        numberTab = win_relative_xy(16, 11)
+        numberTab = util.win_relative_xy(16, 11)
         pyautogui.doubleClick(numberTab[0], numberTab[1])
 
     def _buy(self):
-        buyTab = win_relative_xy(24, 18.5)
+        buyTab = util.win_relative_xy(24, 18.5)
         pyautogui.leftClick(buyTab[0], buyTab[1])
         # 如果是多数量的尝试选择最大数量,否则注释
         if self.__mode in ["suipian", "jifenquan"]:
             self._multiSelect()
 
         # buy2Tab = winRelativeXY(18.5, 5)
-        buy2Tab = win_relative_xy(16, 17)
+        buy2Tab = util.win_relative_xy(16, 17)
         pyautogui.leftClick(buy2Tab[0], buy2Tab[1])
 
     def do(self):
         # 一次刷新购买的次数
         buyCount = 0
-        while self.mark and Util.locate_center_on_screen(r'resources/shop/shop_item.png') is not None:
+        while self.mark and util.locate_center_on_screen(r'resources/shop/shop_item.png') is not None:
             # 找三次是否有有廉价商品 r'resources/shop/item600.png',r'resources/shop/suipian.png',r'resources/shop/meigui.png',
             itemPic = [r'resources/shop/' + self.__mode + '.png']
             # itemPic = [r'resources/shop/suipian.png']
             point = None
             for each in itemPic:
-                point = Util.locate_center_on_screen(each, confidence=0.99)
+                point = util.locate_center_on_screen(each, confidence=0.99)
                 if point is not None:
                     break
             # if point is None:
@@ -86,24 +87,24 @@ class Shopping:
 
     def openShop(self):
         cooldown(3)
-        Util.left_click(1, 6)
+        util.left_click(1, 6)
         cooldown(0.3)
         for i in range(0, 3):
-            pyautogui.moveTo(win_relative_x(5), win_relative_y(17))
-            pyautogui.dragTo(win_relative_x(5), win_relative_y(9), duration=1)
+            pyautogui.moveTo(util.win_relative_x(5), util.win_relative_y(17))
+            pyautogui.dragTo(util.win_relative_x(5), util.win_relative_y(9), duration=1)
             cooldown(0.3)
-        fabao = Util.locate_center_on_screen("resources/shop/category.png")
+        fabao = util.locate_center_on_screen("resources/shop/category.png")
         if fabao is not None:
             pyautogui.leftClick(fabao.x, fabao.y)
             cooldown(0.1)
-            Util.left_click(11, 9)
+            util.left_click(11, 9)
             cooldown(0.2)
             self.categoryPos = (fabao.x, fabao.y)
         cooldown(3)
 
     def closeShop(self):
         cooldown(1)
-        Util.left_click(-2.5, 3.5)
+        util.left_click(-2.5, 3.5)
         cooldown(1)
 
 

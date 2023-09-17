@@ -6,10 +6,10 @@ import time
 
 import playsound as pl
 import pyautogui
-import pyperclip
 from pygetwindow import PyGetWindowException, BaseWindow
 
 from mhxy.frame import Frame
+from mhxy.utils import util
 
 # 日志
 logger = logging.getLogger('mylogger')
@@ -33,64 +33,17 @@ frameSize = [0, 0]
 frameOriginSizeCm = [28.1, 21.8]
 frameSizeCm = [28.1, 21.8]
 
-
-def relative_size(x, y):
-    return (frameSize[0] * x / frameSizeCm[0],
-            frameSize[1] * y / frameSizeCm[1])
-
-
-def relative_x2_act(x_cm):
-    return frameSize[0] * abs(x_cm) / frameSizeCm[0]
-
-
-def relative_y2_act(yCm):
-    return frameSize[1] * abs(yCm) / frameSizeCm[1]
-
-
-def win_relative_x(x):
-    return frame.right - relative_x2_act(x) if x < 0 else frame.left + relative_x2_act(x)
-
-
-def win_relative_y(y):
-    return frame.bottom - relative_y2_act(y) if y < 0 else frame.top + relative_y2_act(y)
-
-
-def win_relative_xy(x, y):
-    return win_relative_x(x), win_relative_y(y)
-
-
-# 百分比方法不是很实用，因为窗口大小变化，ui并不是百分比变化的
-def percent_x(x):
-    return frameSize[0] * (abs(x) / 100)
-
-
-def percent_y(y):
-    return frameSize[1] * (abs(y) / 100)
-
-
-def win_percent_x(x):
-    return frame.right - percent_x(x) if x < 0 else frame.left + percent_x(x)
-
-
-def win_percent_y(y):
-    return frame.bottom - percent_y(y) if y < 0 else frame.top + percent_y(y)
-
-
-def win_percent_xy(x, y):
-    return win_percent_x(x), win_percent_y(y)
-
-
 def battling(battling_pic=r'resources/origin/zhen_tian.png'):
-    return Util.locate_on_screen(battling_pic) is not None
+    return util.Util.locate_on_screen(frame, battling_pic) is not None
 
 
 def not_battling(not_battling_pic):
-    return Util.locate_on_screen(not_battling_pic) is not None
+    return util.Util.locate_on_screen(frame, not_battling_pic) is not None
 
 
 # 关闭任务侧边栏
 def close_mission():
-    Util.left_click(-7, 4.3)
+    util.Util.left_click(-7, 4.3)
     # print("关闭任务侧边栏")
     # pyautogui.hotkey('alt', 'p')
 
@@ -137,12 +90,12 @@ def do_util_find_pic(pic, do, warn_times=None):
     def find():
         if isinstance(pic, list):
             for idx, each in enumerate(pic):
-                locate = Util.locate_center_on_screen(each)
+                locate = util.Util.locate_center_on_screen(frame, each)
                 if locate is not None:
                     return locate, idx
             return None, None
         else:
-            return Util.locate_center_on_screen(pic), None
+            return util.Util.locate_center_on_screen(frame, pic), None
 
     locate, idx = find()
     # 最少执行一次
@@ -169,14 +122,14 @@ def wait_util_find_pic(pic):
 # 副本式任务
 def do_norm_fuben_mission():
     def reach():
-        return Util.locate_center_on_screen(r'resources/fuben/select.png')
+        return util.Util.locate_center_on_screen(r'resources/fuben/select.png')
 
     # 流程任务
     def do():
         reach_position = reach()
         while reach_position is None:
             def click_skip():
-                Util.left_click(-1, -2)
+                util.Util.left_click(-1, -2)
 
             # 找不到头像则正在对话点击头像位置跳过 直到找到头像位置
             do_util_find_pic(r'resources/avatar.png', click_skip)
@@ -191,74 +144,6 @@ def cooldown(second):
     time.sleep(max(0, second))
 
 
-class Util:
-
-    @staticmethod
-    def __open_cv_enable():
-        __openCVEnable = True
-        try:
-            import cv2
-        except ImportError:
-            __openCVEnable = False
-        return __openCVEnable
-
-    @staticmethod
-    def locate_center_on_screen(pic, confidence=0.9):
-        cfd = confidence if Util.__open_cv_enable() else None
-        if isinstance(pic, list):
-            res = None
-            for i in pic:
-                if cfd is not None:
-                    res = pyautogui.locateCenterOnScreen(i, region=(frame.left, frame.top, frame.right, frame.bottom),
-                                                         confidence=cfd)
-                else:
-                    res = pyautogui.locateCenterOnScreen(i, region=(frame.left, frame.top, frame.right, frame.bottom))
-                if res is not None:
-                    return res
-            return res
-        else:
-            if cfd is not None:
-                return pyautogui.locateCenterOnScreen(pic, region=(frame.left, frame.top, frame.right, frame.bottom),
-                                                      confidence=cfd)
-            else:
-                return pyautogui.locateCenterOnScreen(pic,
-                                                      region=(frame.left, frame.top, frame.right, frame.bottom))
-
-    @staticmethod
-    def locate_on_screen(pic, confidence=0.9):
-        cfd = confidence if Util.__open_cv_enable() else None
-        if cfd is not None:
-            return pyautogui.locateOnScreen(pic, region=(frame.left, frame.top, frame.right, frame.bottom),
-                                            confidence=cfd)
-        else:
-            return pyautogui.locateOnScreen(pic, region=(frame.left, frame.top, frame.right, frame.bottom))
-
-    @staticmethod
-    def left_click(x, y):
-        pyautogui.leftClick(win_relative_x(x), win_relative_y(y))
-
-    @staticmethod
-    def double_click(x, y):
-        pyautogui.doubleClick(win_relative_x(x), win_relative_y(y))
-
-    @staticmethod
-    def click(x, y, clicks, buttons):
-        pyautogui.click(win_relative_x(x), win_relative_y(y), clicks=clicks, button=buttons)
-
-    @staticmethod
-    def click_picture(pic):
-        locate, idx = wait_util_find_pic(pic)
-        pyautogui.leftClick(locate.x, locate.y)
-
-    @staticmethod
-    def write(text):
-        # 不支持中文
-        # pyautogui.typewrite(text)
-        pyperclip.copy(text)
-        # print(pyperclip.paste())
-        pyautogui.hotkey('Ctrl', 'v')
-
-
 def resize_to_small(windows):
     while not windows.isActive:
         cooldown(1)
@@ -268,11 +153,9 @@ def resize_to_small(windows):
 
 
 '''
-@:param resizeToSmall 是否修改窗口为小窗口
-@:param changWinPos 窗口位置是否发生移动
+@:param resize_to_small 是否修改窗口为小窗口
+@:param chang_window_position 窗口位置是否发生移动
 '''
-
-
 def init(idx=0, resize_to_small=False, chang_window_position=True):
     global frameSizeCm
     global frame
@@ -365,7 +248,7 @@ class PicNode(object):
         pyautogui.leftClick(locate.x, locate.y)
         cooldown(0.5)
         # 叶子节点需要关闭对话
-        Util.left_click(chaseWin[0], chaseWin[1])
+        util.Util.left_click(chaseWin[0], chaseWin[1])
 
     def setNext(self, nxt):
         self.next = nxt

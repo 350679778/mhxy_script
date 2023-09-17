@@ -25,7 +25,7 @@ class Mihunta(MhxyScript):
     def do(self):
         # 流程任务
         def do():
-            Util.left_click(self.chaseWin[0], self.chaseWin[1])
+            util.left_click(self.chaseWin[0], self.chaseWin[1])
             reachPos = self._reach()
             times = 0
             while reachPos is None:
@@ -38,7 +38,7 @@ class Mihunta(MhxyScript):
                 if times >= 6:
                     print("恢复流程")
                     # 10秒左右还没进入战斗 重新追踪
-                    Util.left_click(self.chaseWin[0], self.chaseWin[1])
+                    util.left_click(self.chaseWin[0], self.chaseWin[1])
                     times = 0
             cooldown(1)
             pyautogui.leftClick(reachPos.x, reachPos.y)
