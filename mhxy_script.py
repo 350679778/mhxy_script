@@ -145,11 +145,11 @@ if __name__ == '__main__':
     pack_mihunta()
     # 帮派任务
     pack_bangpai()
-    # 挖矿
-    pack_mine()
     # 初始化为原始窗口
     originWinBtn = my_button(root, text='初始化为原始窗口', width=12, command=gameProcess.move_zhuo_mian_ban_to_origin)
     originWinBtn.place(x=80, y=180, anchor=tkinter.NW)
+    # 挖矿
+    pack_mine()
     # 说明
     t = tkinter.Text(root, width=32, height=10)
     t.insert(tkinter.END, "说明\n"
