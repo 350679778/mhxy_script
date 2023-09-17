@@ -1,3 +1,4 @@
+from tkinter import ttk
 import tkinter
 
 from game_process import *
@@ -115,6 +116,31 @@ def pack_mine():
     mine_btn = my_button(root, text='挖矿', width=8, command=change_to_mine)
     mine_btn.place(x=90, y=230, anchor=tkinter.NW)
 
+'''
+创建游戏窗口列表
+'''
+def pack_window_list():
+    global root
+    # (1)创建样式
+    style = tkinter.ttk.Style()
+    style.configure("Treeview", rowheight=20)  # 设置行高
+    style.configure("Treeview.Heading", font=('Arial', 11, 'bold'))  # 设置表头字体
+    # (2)创建 Treeview 控件，设置高度为10行
+    root.tree = ttk.Treeview(root, height=10, style="Treeview")
+    root.tree.place(x=220, y=40, anchor=tkinter.NW)
+    # (3)定义列名
+    root.tree["columns"] = ("name", "status")
+    # (4)设置列的标题名称，anchor可设置对其方式：居中(center)/左对齐(w)/右对齐(e)，无anchor参数时，标题名称默认居中
+    root.tree.heading("#0", text="序号", anchor="w")
+    root.tree.heading("name", text="角色名称")
+    root.tree.heading("status", text="状态")
+    # (5)设置列宽度(像素)，无anchor参数时，列表中的数据除(#0)外其余都是默认左对齐
+    root.tree.column("#0", width=50)
+    root.tree.column("name", width=100, anchor="center")
+    root.tree.column("status", width=90, anchor="center")
+    # (6)插入默认数据
+    root.tree.insert("", tkinter.END, text="1", values=("恣意", "抓鬼中"))
+
 
 # 界面程序 此部分封装了参数没有大量写死的程序 opencv 死活打包不进去
 # pyinstaller --onefile --noconsole mhxy_script.py
@@ -127,9 +153,11 @@ if __name__ == '__main__':
     x = int((root.winfo_screenwidth() - root.winfo_reqwidth()) / 2)
     y = int((root.winfo_screenheight() - root.winfo_reqheight()) / 2)
     # 设置窗口的大小和位置
-    root.geometry("260x430+{}+{}".format(x, y))
+    root.geometry("660x430+{}+{}".format(x, y))
     gameProcess = GameProcess()
 
+    # 创建一个梦幻窗口的管理列表
+    pack_window_list()
     # 初始化为小窗口
     smallWinBtn = my_button(root, text='初始化为小窗口', width=12, command=gameProcess.move_zhuo_mian_ban)
     smallWinBtn.place(x=80, y=10, anchor=tkinter.NW)
