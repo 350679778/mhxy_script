@@ -1,8 +1,25 @@
 import os
 import sys
 
+import pygetwindow
+
 from mhxy import *
 
+# 所有窗口
+windows = []
+frames = []
+
+def get_all_mhxy_frames() -> frames:
+    """
+    获取到所有的梦幻西游的窗口
+    :rtype: Frame
+    """
+    global windows
+    windows = pygetwindow.getWindowsWithTitle("梦幻西游：时空")
+
+    for window in windows:
+        frames.append(Frame(window))
+    return frames
 
 class GameProcess:
     _moveOffset = (60, 20)
@@ -13,6 +30,7 @@ class GameProcess:
     '''
 
     def __move_zhuo_mian_ban_func(self, size):
+        global windows
         windows = pyautogui.getAllWindows()
         zhuomianban = (71, 963)
         i = 0

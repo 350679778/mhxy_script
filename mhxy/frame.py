@@ -1,13 +1,17 @@
+import pygetwindow
+
+
 class Frame:
-    left = 0
-    top = 0
-    right = 0
-    bottom = 0
+    window: pygetwindow.Win32Window
+    left: int
+    right: int
+    top: int
+    bottom: int
 
-    def __init__(self, left, top):
-        self.left = left
-        self.top = top
-
-    def __str__(self):
-        return "left:" + str(self.left) + " top:" + str(self.top) + " right:" + str(self.right) + " bottom:" + str(
-            self.bottom)
+    def __init__(self, window: pygetwindow.Win32Window = None):
+        self.window = window
+        if window is not None:
+            self.left = window.left
+            self.right = window.right
+            self.top = window.top
+            self.bottom = window.bottom

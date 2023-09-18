@@ -21,7 +21,7 @@ fileHandler.setLevel(logging.DEBUG)
 logger.addHandler(fileHandler)
 
 # 窗口左上侧位置 init后修改
-frame = Frame(0, 0)
+frame = Frame(None)
 
 # 窗口固定大小
 originSize = [1040, 807]
@@ -32,6 +32,7 @@ frameSize = [0, 0]
 
 frameOriginSizeCm = [28.1, 21.8]
 frameSizeCm = [28.1, 21.8]
+
 
 def battling(battling_pic=r'resources/origin/zhen_tian.png'):
     return util.Util.locate_on_screen(frame, battling_pic) is not None
@@ -156,6 +157,8 @@ def resize_to_small(windows):
 @:param resize_to_small 是否修改窗口为小窗口
 @:param chang_window_position 窗口位置是否发生移动
 '''
+
+
 def init(idx=0, resize_to_small=False, chang_window_position=True):
     global frameSizeCm
     global frame

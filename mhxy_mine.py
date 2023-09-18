@@ -169,7 +169,7 @@ class Mine(MhxyScript):
     )
 
     # 小地图
-    _smallMap = Frame(0, 0)
+    _smallMap = Frame(None)
 
     def _initForMine(self):
         global frame
